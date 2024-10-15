@@ -18,6 +18,7 @@ pub struct CasbinHoop<E, F> {
     use_enforcer_mut: bool,
     get_casbin_vals: F,
 }
+
 impl<E, F> Deref for CasbinHoop<E, F> {
     type Target = Arc<RwLock<E>>;
 

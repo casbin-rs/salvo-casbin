@@ -15,6 +15,7 @@ pub struct CasbinVals {
 #[derive(Clone)]
 pub struct CasbinHoop<E, F> {
     enforcer: Arc<RwLock<E>>,
+    use_enforcer_mut: bool,
     get_casbin_vals: F,
 }
 impl<E, F> Deref for CasbinHoop<E, F> {
@@ -40,14 +41,15 @@ where
         + Sync
         + 'static,
 {
-    pub fn new(enforcer: E, get_casbin_vals: F) -> Self {
+    pub fn new(enforcer: E, use_enforcer_mut: bool, get_casbin_vals: F) -> Self {
         CasbinHoop {
             enforcer: Arc::new(RwLock::new(enforcer)),
+            use_enforcer_mut,
             get_casbin_vals,
         }
     }
 
-    pub fn get_enforcer(&mut self) -> Arc<RwLock<E>> {
+    pub fn get_enforcer(&self) -> Arc<RwLock<E>> {
         self.enforcer.clone()
     }
 
@@ -75,40 +77,29 @@ where
         let path = req.uri().path().to_string();
         let action = req.method().as_str().to_string();
 
-        if !vals.subject.is_empty() {
-            if let Some(domain) = vals.domain {
-                let mut lock = self.enforcer.write().await;
-                match lock.enforce_mut(vec![vals.subject, domain, path, action]) {
-                    Ok(true) => {
-                        drop(lock);
-                    }
-                    Ok(false) => {
-                        drop(lock);
-                        res.render(StatusError::forbidden());
-                    }
-                    Err(_) => {
-                        drop(lock);
-                        res.render(StatusError::bad_gateway());
-                    }
-                }
-            } else {
-                let mut lock = self.enforcer.write().await;
-                match lock.enforce_mut(vec![vals.subject, path, action]) {
-                    Ok(true) => {
-                        drop(lock);
-                    }
-                    Ok(false) => {
-                        drop(lock);
-                        res.render(StatusError::forbidden());
-                    }
-                    Err(_) => {
-                        drop(lock);
-                        res.render(StatusError::bad_gateway());
-                    }
-                }
-            }
-        } else {
+        if vals.subject.is_empty() {
             res.render(StatusError::unauthorized());
+            return;
+        }
+
+        let rvals = if let Some(domain) = vals.domain {
+            vec![vals.subject, domain, path, action]
+        } else {
+            vec![vals.subject, path, action]
+        };
+        let r = if self.use_enforcer_mut {
+            self.enforcer.write().await.enforce_mut(rvals)
+        } else {
+            self.enforcer.read().await.enforce(rvals)
+        };
+        match r {
+            Ok(true) => {}
+            Ok(false) => {
+                res.render(StatusError::forbidden());
+            }
+            Err(_) => {
+                res.render(StatusError::bad_gateway());
+            }
         }
     }
 }

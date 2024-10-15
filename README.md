@@ -40,7 +40,7 @@ async fn main() {
 
     let a = FileAdapter::new("examples/rbac_with_pattern_policy.csv");
 
-    let casbin_hoop = CasbinHoop::new(Enforcer::new(m, a).await.unwrap(), |_req, _depot| {
+    let casbin_hoop = CasbinHoop::new(Enforcer::new(m, a).await.unwrap(), false, |_req, _depot| {
         Ok(Some(CasbinVals {
             subject: String::from("alice"),
             domain: None,

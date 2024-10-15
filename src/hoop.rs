@@ -72,14 +72,13 @@ where
             }
         };
 
-        let subject = vals.subject.clone();
         let path = req.uri().path().to_string();
         let action = req.method().as_str().to_string();
 
         if !vals.subject.is_empty() {
             if let Some(domain) = vals.domain {
                 let mut lock = self.enforcer.write().await;
-                match lock.enforce_mut(vec![subject, domain, path, action]) {
+                match lock.enforce_mut(vec![vals.subject, domain, path, action]) {
                     Ok(true) => {
                         drop(lock);
                     }
@@ -94,7 +93,7 @@ where
                 }
             } else {
                 let mut lock = self.enforcer.write().await;
-                match lock.enforce_mut(vec![subject, path, action]) {
+                match lock.enforce_mut(vec![vals.subject, path, action]) {
                     Ok(true) => {
                         drop(lock);
                     }

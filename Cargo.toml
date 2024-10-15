@@ -1,0 +1,31 @@
+[package]
+name = "salvo-casbin"
+version = "0.2.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Casbin salvo access control hoop"
+homepage = "https://github.com/andeya/salvo-casbin"
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "salvo_casbin"
+path = "src/lib.rs"
+
+[dependencies]
+casbin = "2.5"
+tokio = { version = "1", default-features = false }
+salvo = "0.73"
+
+
+[dev-dependencies]
+salvo = { version = "0.73", features = ["test"] }
+
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+
+[profile.dev]
+split-debuginfo = "unpacked"

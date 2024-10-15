@@ -1,4 +1,4 @@
-use casbin::{IEnforcer, Result as CasbinResult};
+use casbin::IEnforcer;
 use salvo::prelude::*;
 use std::{
     ops::{Deref, DerefMut},
@@ -40,11 +40,11 @@ where
         + Sync
         + 'static,
 {
-    pub async fn new(enforcer: E, get_casbin_vals: F) -> CasbinResult<Self> {
-        Ok(CasbinHoop {
+    pub fn new(enforcer: E, get_casbin_vals: F) -> Self {
+        CasbinHoop {
             enforcer: Arc::new(RwLock::new(enforcer)),
             get_casbin_vals,
-        })
+        }
     }
 
     pub fn get_enforcer(&mut self) -> Arc<RwLock<E>> {

@@ -22,9 +22,7 @@ async fn test_set_enforcer() {
             subject: String::from("alice"),
             domain: None,
         }))
-    })
-    .await
-    .unwrap();
+    });
 
     casbin_hoop
         .write()

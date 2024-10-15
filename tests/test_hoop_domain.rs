@@ -21,9 +21,7 @@ async fn test_hoop_domain() {
             subject: String::from("alice"),
             domain: Some(String::from("domain1")),
         }))
-    })
-    .await
-    .unwrap();
+    });
 
     let app = Router::new()
         .hoop(casbin_hoop)

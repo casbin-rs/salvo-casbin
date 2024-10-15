@@ -23,9 +23,7 @@ async fn test_hoop() {
             subject: String::from("alice"),
             domain: None,
         }))
-    })
-    .await
-    .unwrap();
+    });
 
     casbin_hoop
         .write()

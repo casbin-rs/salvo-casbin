@@ -45,9 +45,7 @@ async fn main() {
             subject: String::from("alice"),
             domain: None,
         }))
-    })
-    .await
-    .unwrap();
+    });
 
     casbin_hoop
         .write()

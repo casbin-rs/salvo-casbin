@@ -1,11 +1,12 @@
 [package]
 name = "salvo-casbin"
-version = "0.73.1"
+version = "0.73.2"
 edition = "2021"
 license = "Apache-2.0"
 description = "Casbin salvo access control hoop"
 homepage = "https://github.com/casbin-rs/salvo-casbin"
 readme = "README.md"
+authors = ["Andeya Lee <andeyalee@outlook.com>"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]

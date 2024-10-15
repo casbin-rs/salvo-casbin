@@ -3,7 +3,7 @@
 [![Crates.io](https://img.shields.io/crates/d/salvo-casbin)](https://crates.io/crates/salvo-casbin)
 [![Docs](https://docs.rs/salvo-casbin/badge.svg)](https://docs.rs/salvo-casbin)
 [![CI](https://github.com/andeya/salvo-casbin/actions/workflows/ci.yml/badge.svg)](https://github.com/andeya/salvo-casbin/actions/workflows/ci.yml)
-[![Codecov](https://codecov.io/gh/andeya/salvo-casbin/branch/main/graph/badge.svg)](https://codecov.io/gh/andeya/salvo-casbin)
+[![Codecov](https://codecov.io/gh/andeya/salvo-casbin/branch/master/graph/badge.svg)](https://codecov.io/gh/andeya/salvo-casbin)
 
 [Casbin](https://github.com/casbin/casbin-rs) access control hoop for [salvo](https://github.com/salvo-rs/salvo) framework
 

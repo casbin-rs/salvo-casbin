@@ -1,6 +1,6 @@
 [package]
 name = "salvo-casbin"
-version = "0.73.2"
+version = "0.73.3"
 edition = "2021"
 license = "Apache-2.0"
 description = "Casbin salvo access control hoop"
@@ -16,11 +16,11 @@ path = "src/lib.rs"
 [dependencies]
 casbin = "2.5"
 tokio = { version = "1", default-features = false }
-salvo = "0.73"
+salvo = { version = ">=0.73", default-features = false }
 
 
 [dev-dependencies]
-salvo = { version = "0.73", features = ["test"] }
+salvo = { version = ">=0.73", features = ["test"] }
 
 
 [profile.release]
